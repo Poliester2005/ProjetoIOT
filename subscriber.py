@@ -1,5 +1,7 @@
 import turtle
 import paho.mqtt.client as mqtt
+from dotenv import load_dotenv
+import os
 
 def update_bgcolor(hex_code):
     try:
@@ -22,9 +24,13 @@ def main():
     screen = turtle.Screen()
     t = turtle.Turtle()
 
-    mqtt_broker = "3.91.141.102"
-    mqtt_port = 1883
-    mqtt_topic = "lampada"
+    load_dotenv()
+
+
+    mqtt_broker = os.getenv("BROKER")
+    mqtt_port = int(os.getenv("PORT"))
+    mqtt_topic = os.getenv("TOPIC")
+
 
     client = mqtt.Client()
     client.on_message = on_message

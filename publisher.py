@@ -1,13 +1,17 @@
 import tkinter as tk
 from tkinter import colorchooser
 import paho.mqtt.client as mqtt
+from dotenv import load_dotenv
+import os
 
-BROKER = "3.91.141.102"
-PORT = 1883
-TOPIC = "lampada"
+load_dotenv()
+
+mqtt_broker = os.getenv("BROKER")
+mqtt_port = int(os.getenv("PORT"))
+mqtt_topic = os.getenv("TOPIC")
 
 def publish_color(color_hex):
-    client.publish(TOPIC, color_hex)
+    client.publish(mqtt_topic, color_hex)
     print(f"Enviado: {color_hex}")
 
 def choose_color():
@@ -20,9 +24,9 @@ client = mqtt.Client()
 
 def connect_to_broker():
     try:
-        client.connect(BROKER, PORT, 60)
+        client.connect(mqtt_broker, mqtt_port, 60)
         client.loop_start()
-        print(f"Conectado ao broker MQTT: {BROKER}:{PORT}")
+        print(f"Conectado ao broker MQTT: {mqtt_broker}:{mqtt_port}")
     except Exception as e:
         print(f"Erro ao conectar ao broker: {e}")
 
